@@ -1,0 +1,69 @@
+﻿@page "/"
+
+@using Mud_Blazor.Data;
+
+@inject Mud_Blazor.Interface.ICustomer customerService;
+@inject MudBlazor.ISnackbar Snackbar;
+
+<MudTextField @bind-Value="customer.Name" Label="Customer Name" Variant="Variant.Text" Margin="Margin.Dense"> </MudTextField>
+<MudTextField @bind-Value="customer.Role" Label="Customer Role" Variant="Variant.Text" Margin="Margin.Dense"> </MudTextField>
+<MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="Save"></MudButton>
+<hr />
+<MudTable Items="@GetCustomers()" Dense="@dense" Hover="@hover" Filter="new Func<Customer, bool>(FilterFunc)" @bind-customer="customer">
+    <ToolBarContent>
+<MudText Typo="Typo.h6">Periodic Customers</MudText>
+
+<MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start"  AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"> </MudTextField>
+
+
+    </ToolBarContent>
+
+</MudTable>
+
+@code{
+
+    private bool dense = false;
+    private bool hover = true;
+    private string searchString = "";
+
+    private Customer customer = new Customer();
+    private HashSet<Customer> customers = new HashSet<Customer>();
+
+    protected override async Task OnInitializedAsync() => GetCustomers();
+
+    private HashSet<Customer> GetCustomers()
+    {
+        customers = customerService.GetCustomers();
+        return customers;
+    }
+
+    private bool FilterFunc(Customer Customer)
+    {
+        if (string.IsNullOrWhiteSpace(searchString)) return true;
+        if (Customer.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase)) return true;
+        if (Customer.Role.Contains(searchString, StringComparison.OrdinalIgnoreCase)) return true;
+        return false;
+    }
+
+    private void Save()
+    {
+        customerService.Save(customer);
+        customer = new Customer();
+        Snackbar.Add("Student Saved", Severity.Success);
+        GetCustomers();
+    }
+
+    private void Edit(int customerId)
+    {
+        customer = customers.FirstOrDefault(x => x.CustomerID == customerId);
+    }
+
+
+    private void Delete(int customerId)
+    {
+        customerService.Delete(customerId);
+        Snackbar.Add("Customer Deleted", Severity.Warning);
+        GetCustomers();
+    }
+}
+
