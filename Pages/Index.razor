@@ -7,7 +7,7 @@
 
 <MudTextField @bind-Value="customer.Name" Label="Customer Name" Variant="Variant.Text" Margin="Margin.Dense"> </MudTextField>
 <MudTextField @bind-Value="customer.Role" Label="Customer Role" Variant="Variant.Text" Margin="Margin.Dense"> </MudTextField>
-<MudButton Label="Save" Variant=" Variant.Filled" Color="Color.Success" OnClick="Save"></MudButton>
+<MudButton title="Save" Variant=" Variant.Filled" Color="Color.Success" OnClick="Save">Save</MudButton>
 <hr />
 <MudTable Items="@GetCustomers()" Dense="@dense" Hover="@hover" Filter="new Func<Customer, bool>(FilterFunc)" @bind-customer="customer">
     <ToolBarContent>
@@ -26,8 +26,8 @@
             <MudTd DataLabel="Name">@context.Name</MudTd>
             <MudTd DataLabel="CustomerRole">@context.Role</MudTd>   
             <MudTd DataLabel="Save">
-                <MudFab @onclick="@(()=>Edit(@context.CustomerID))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
-                <MudFab @onclick="@(()=>Delete(@context.CustomerID))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+                <MudFab Title ="Edit"  Label="Edit" @onclick="@(()=>Edit(@context.CustomerID))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+                <MudFab Title="Delete" Label="Delete" @onclick="@(()=>Delete(@context.CustomerID))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
             </MudTd>
     </RowTemplate>
     <PagerContent>
