@@ -7,6 +7,6 @@ namespace Mud_Blazor.Interface
 		HashSet<Customer> GetCustomers();
 		Customer GetById(int CustomerID);
 		void Save(Customer customer);
-		string Delete(int CustomerID);
+		void Delete(int CustomerID);
 	}
 }

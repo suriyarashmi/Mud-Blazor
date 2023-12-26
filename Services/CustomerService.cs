@@ -13,15 +13,16 @@ namespace Mud_Blazor.Services
 			_context = context;
 		}
 
-		public string Delete(int CustomerID)
+		public void Delete(int CustomerID)
 		{
 			var customer = _context.Customers.FirstOrDefault(x=>x.CustomerID==CustomerID);
 
 			if (customer!=null)
 			{
 				_context.Customers.Remove(customer);
-			}
-			return "Deleted";
+                _context.SaveChanges();
+            }
+			
 		}
 
 		public Customer GetById(int CustomerID)

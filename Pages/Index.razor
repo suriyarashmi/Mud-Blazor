@@ -78,8 +78,9 @@
 
     private void Delete(int customerId)
     {
+        customer = customers.FirstOrDefault(x => x.CustomerID == customerId);
         customerService.Delete(customerId);
-        Snackbar.Add("Customer Deleted", Severity.Warning);
+        Snackbar.Add("Customer Deleted", Severity.Success);
         GetCustomers();
     }
 }
